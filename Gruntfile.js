@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		watch: {
 			js: {
-				files: ['src/js/*.js'],
+				files: ['src/js/main.js'],
 				tasks: ['uglify']
 			},
 			css: {
@@ -19,12 +19,9 @@ module.exports = function(grunt) {
 				mangle: false
 			},
     		js: {
-      			files: [{
-			    	expand: true,
-			    	cwd: 'src/',
-			    	src: ['**/*.js'],
-			    	dest: 'dist/'
-			   	}]
+      			files: {
+					'dest/js/main.js': 'src/js/main.js'
+				}
         	}
         },
         htmlmin: {
