@@ -1,18 +1,35 @@
-function initMap() {
-    var map;
-    var yankeeStadium = {lat: 40.829622, lng: -73.926173};
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: yankeeStadium,
-        zoom: 15
-    });
+var Model = [
+    {title:'Yankee Stadium', location:{lat: 40.829622, lng: -73.926173}},
+    {title:'The Bronx Museum of the Arts', location:{lat: 40.831011, lng: -73.919719}},
+    {title:'Concourse Plaza', location:{lat: 40.825227, lng: -73.920491}},
+    {title:'Bronx County Hall of Justice', location:{lat: 40.826258, lng: -73.919298}},
+    {title:'Bronx Supreme Court', location:{lat: 40.826173, lng: -73.923834}},
+    {title:'Heritage Field', location:{lat: 40.827023, lng: -73.927761}},
+    {title:'Joseph Yancey Track and Field', location:{lat: 40.828006, lng: -73.929043}},
+    {title:'Joyce Kilmer Park', location:{lat: 40.828522, lng: -73.922673}}
+];
 
-    var marker = new google.maps.Marker({
-    position: yankeeStadium,
-    map: map,
-    title: 'Yankee Stadium'
+var initMap = function() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: Model[0].location,
+        zoom: 16,
+        mapTypeControl: false
     });
-
-    map.addListener('bounds_changed', function() {
-        map.panTo(marker.getPosition());
-    });
+    ViewModel();
+    ko.applyBindings(ViewModel());
 };
+
+var ViewModel = function() {
+    markers = ko.observableArray(Model);
+    markers().forEach(function(item) {
+        var position = item.location;
+        var title = item.title;
+
+        marker = new google.maps.Marker({
+            position: position,
+            title: title,
+            map: map
+        });
+        item.marker = marker;
+    });
+}
