@@ -7,11 +7,12 @@
     <title>Neighborhood Map</title>
 </head>
 <body>
-    <nav class='list-container'>
+    <aside class='list-container'>
+        <h1 class="title">Neighborhood Map</h1>
         <ul class="list" data-bind="foreach: locations">
-            <li data-bind="text: title"></li>
+            <li class="list-item"data-bind="text: title"></li>
         </ul>
-    </nav>
+    </aside>
     <a class="menu-icon" data-bind="click: toggleMenu">
         <img src="img/menu.svg" alt="Menu Icon"/>
     </a>
