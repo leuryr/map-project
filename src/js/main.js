@@ -16,12 +16,12 @@ var initMap = function() {
         mapTypeControl: false
     });
     ViewModel();
-    ko.applyBindings(ViewModel());
+    ko.applyBindings(new ViewModel());
 };
 
 var ViewModel = function() {
-    markers = ko.observableArray(Model);
-    markers().forEach(function(item) {
+    locations = ko.observableArray(Model);
+    locations().forEach(function(item) {
         var position = item.location;
         var title = item.title;
 
