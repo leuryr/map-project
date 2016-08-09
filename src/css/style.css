@@ -1,4 +1,7 @@
 html, body { height: 100%; margin: 0; padding: 0; }
+li:hover {
+    cursor: pointer;
+}
 .list-container {
     width: 300px;
     height: 100%;
@@ -6,23 +9,29 @@ html, body { height: 100%; margin: 0; padding: 0; }
     position: absolute;
     z-index: 1;
     transform: translate(-300px, 0);
-    transition: transform 0.8s ease;
+    transition: transform 0.5s ease;
+}
+.title {
+    padding-left: 1em;
 }
 .list {
     list-style: none;
+}
+.list-item {
+    margin-bottom: 1em;
 }
 .open-menu {
     transform: translate(0, 0);
 }
 .slide-icon {
     transform: translate(256px, 0);
-    transition: transform 0.8s ease;
+    transition: transform 0.5s ease;
 }
 .menu-icon {
     left:.4em;;
     position: absolute;
     z-index: 2;
-    transition: transform 0.8s ease;
+    transition: transform 0.5s ease;
 }
 #map {
     width: 100%;
