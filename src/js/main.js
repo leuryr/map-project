@@ -19,21 +19,31 @@ var initMap = function() {
 };
 
 var ViewModel = function() {
-    this.locations = ko.observableArray(Model);
-    this.locations().forEach(function(item) {
-        var position = item.location;
-        var title = item.title;
+    var self = this;
+    //Create an observable array to store locations.
+    self.locations = ko.observableArray(Model);
+    //Function for creating map markers from an array of locations.
+    self.createMarkers = function(array) {
+        array().forEach(function(item) {
+            if (!(item.hasOwnProperty('marker'))) {
+                var position = item.location;
+                var title = item.title;
 
-        var marker = new google.maps.Marker({
-            position: position,
-            title: title,
-            map: map
+                var marker = new google.maps.Marker({
+                    position: position,
+                    title: title,
+                    map: map
+                });
+                item.marker = marker;
+            }
         });
-        item.marker = marker;
-    });
+    };
+    self.createMarkers(self.locations);
+    //Create variables to facilitate toggling classes.
     var listContainer = $('.list-container');
     var menuIcon = $('.menu-icon')
-    this.toggleMenu = function() {
+    //Function for showing hiding the list menu.
+    self.toggleMenu = function() {
         listContainer.toggleClass("open-menu");
         menuIcon.toggleClass("slide-icon");
     };
