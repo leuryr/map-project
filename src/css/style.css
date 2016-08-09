@@ -16,9 +16,15 @@ li:hover {
 }
 .list {
     list-style: none;
+    padding: 0;
 }
 .list-item {
-    margin-bottom: 1em;
+    padding: .5em 0 .5em .5em;
+    border-color: black;
+    border-top: 1px solid;
+}
+.list-item:last-of-type {
+    border-bottom: 1px solid;
 }
 .open-menu {
     transform: translate(0, 0);
