@@ -1,10 +1,28 @@
 html, body { height: 100%; margin: 0; padding: 0; }
 .list-container {
-    width: 30%;
+    width: 300px;
     height: 100%;
+    background-color: #808080;
     position: absolute;
     z-index: 1;
-    display: none;
+    transform: translate(-300px, 0);
+    transition: transform 0.8s ease;
+}
+.list {
+    list-style: none;
+}
+.open-menu {
+    transform: translate(0, 0);
+}
+.slide-icon {
+    transform: translate(256px, 0);
+    transition: transform 0.8s ease;
+}
+.menu-icon {
+    left:.4em;;
+    position: absolute;
+    z-index: 2;
+    transition: transform 0.8s ease;
 }
 #map {
     width: 100%;

@@ -15,21 +15,26 @@ var initMap = function() {
         zoom: 16,
         mapTypeControl: false
     });
-    ViewModel();
     ko.applyBindings(new ViewModel());
 };
 
 var ViewModel = function() {
-    locations = ko.observableArray(Model);
-    locations().forEach(function(item) {
+    this.locations = ko.observableArray(Model);
+    this.locations().forEach(function(item) {
         var position = item.location;
         var title = item.title;
 
-        marker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
             position: position,
             title: title,
             map: map
         });
         item.marker = marker;
     });
+    var listContainer = $('.list-container');
+    var menuIcon = $('.menu-icon')
+    this.toggleMenu = function() {
+        listContainer.toggleClass("open-menu");
+        menuIcon.toggleClass("slide-icon");
+    };
 }
