@@ -24,6 +24,8 @@ var ViewModel = function() {
     var self = this;
     // Create an observable array to store locations.
     self.locations = ko.observableArray(Model);
+    // Create an onservable for the selected filter value.
+    self.selectedValue = ko.observable();
     // This creates map markers from an array of locations.
     self.createMarkers = function(array) {
         array().forEach(function(item) {

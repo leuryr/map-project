@@ -9,6 +9,20 @@
 <body>
     <aside class='list-container'>
         <h1 class="title">Neighborhood Map</h1>
+        <select data-bind="value: selectedValue">
+            <option selected disabled>Choose a type</option>
+            <option value="bakery">Bakery</option>
+            <option value="bank">Bank</option>
+            <option value="bar">Bar</option>
+            <option value="cafe">Cafe</option>
+            <option value="courthouse">Courthouse</option>
+            <option value="gym">Gym</option>
+            <option value="movie_theater">Movie Theater</option>
+            <option value="park">Park</option>
+            <option value="restaurant">Restaurant</option>
+            <option value="shopping_mall">Shopping Mall</option>
+            <option value="stadium">Stadium</option>
+        </select>
         <ul class="list" data-bind="foreach: locations">
             <li class="list-item" data-bind="text: name, click: $parent.getMarker"></li>
         </ul>
