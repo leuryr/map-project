@@ -1,12 +1,12 @@
 var Model = [
-    {name:'Yankee Stadium', geometry: {location:{lat: 40.829622, lng: -73.926173}}, typeEnabled: true, types:[]},
-    {name:'The Bronx Museum of the Arts', geometry: {location:{lat: 40.831011, lng: -73.919719}}, typeEnabled: true, types:[]},
-    {name:'Concourse Plaza', geometry: {location:{lat: 40.825227, lng: -73.920491}}, typeEnabled: true, types:[]},
-    {name:'Bronx County Hall of Justice', geometry: {location:{lat: 40.826258, lng: -73.919298}}, typeEnabled: true, types:[]},
-    {name:'Bronx Supreme Court', geometry: {location:{lat: 40.826173, lng: -73.923834}}, typeEnabled: true, types:[]},
-    {name:'Heritage Field', geometry: {location:{lat: 40.827023, lng: -73.927761}}, typeEnabled: true, types:[]},
-    {name:'Joseph Yancey Track and Field', geometry: {location:{lat: 40.828006, lng: -73.929043}}, typeEnabled: true, types:[]},
-    {name:'Joyce Kilmer Park', geometry: {location:{lat: 40.828522, lng: -73.922673}}, typeEnabled: true, types:[]}
+    {name:'Yankee Stadium', geometry: {location:{lat: 40.829622, lng: -73.926173}}, typeEnabled: ko.observable(true), types:[]},
+    {name:'The Bronx Museum of the Arts', geometry: {location:{lat: 40.831011, lng: -73.919719}}, typeEnabled: ko.observable(true), types:[]},
+    {name:'Concourse Plaza', geometry: {location:{lat: 40.825227, lng: -73.920491}}, typeEnabled: ko.observable(true), types:[]},
+    {name:'Bronx County Hall of Justice', geometry: {location:{lat: 40.826258, lng: -73.919298}}, typeEnabled: ko.observable(true), types:[]},
+    {name:'Bronx Supreme Court', geometry: {location:{lat: 40.826173, lng: -73.923834}}, typeEnabled: ko.observable(true), types:[]},
+    {name:'Heritage Field', geometry: {location:{lat: 40.827023, lng: -73.927761}}, typeEnabled: ko.observable(true), types:[]},
+    {name:'Joseph Yancey Track and Field', geometry: {location:{lat: 40.828006, lng: -73.929043}}, typeEnabled: ko.observable(true), types:[]},
+    {name:'Joyce Kilmer Park', geometry: {location:{lat: 40.828522, lng: -73.922673}}, typeEnabled: ko.observable(true), types:[]}
 ];
 
 var initApp = function() {
@@ -30,9 +30,9 @@ var ViewModel = function() {
         console.log(newValue);
         self.locations().forEach(function(item) {
             if(item.types.includes(newValue)) {
-                item.typeEnabled = true;
+                item.typeEnabled(true);
             } else {
-                item.typeEnabled = false;
+                item.typeEnabled(false);
             };
         });
     });
@@ -59,7 +59,7 @@ var ViewModel = function() {
     // This function sets the initial value of the typeEnabled property
     // for a location to true.
     self.initType = function(item) {
-        item.typeEnabled = true;
+        item.typeEnabled = ko.observable(true);
     };
     // This calls the Maps API Places service.
     var service = new google.maps.places.PlacesService(map);
