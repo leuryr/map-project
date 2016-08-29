@@ -1,12 +1,12 @@
 var Model = [
-    {name:'Yankee Stadium', geometry: {location:{lat: 40.829622, lng: -73.926173}}, typeEnabled: ko.observable(true), types:[]},
+    {name:'Yankee Stadium', geometry: {location:{lat: 40.829622, lng: -73.926173}}, typeEnabled: ko.observable(true), types:["stadium"]},
     {name:'The Bronx Museum of the Arts', geometry: {location:{lat: 40.831011, lng: -73.919719}}, typeEnabled: ko.observable(true), types:[]},
-    {name:'Concourse Plaza', geometry: {location:{lat: 40.825227, lng: -73.920491}}, typeEnabled: ko.observable(true), types:[]},
-    {name:'Bronx County Hall of Justice', geometry: {location:{lat: 40.826258, lng: -73.919298}}, typeEnabled: ko.observable(true), types:[]},
-    {name:'Bronx Supreme Court', geometry: {location:{lat: 40.826173, lng: -73.923834}}, typeEnabled: ko.observable(true), types:[]},
-    {name:'Heritage Field', geometry: {location:{lat: 40.827023, lng: -73.927761}}, typeEnabled: ko.observable(true), types:[]},
-    {name:'Joseph Yancey Track and Field', geometry: {location:{lat: 40.828006, lng: -73.929043}}, typeEnabled: ko.observable(true), types:[]},
-    {name:'Joyce Kilmer Park', geometry: {location:{lat: 40.828522, lng: -73.922673}}, typeEnabled: ko.observable(true), types:[]}
+    {name:'Concourse Plaza', geometry: {location:{lat: 40.825227, lng: -73.920491}}, typeEnabled: ko.observable(true), types:["shopping_mall"]},
+    {name:'Bronx County Hall of Justice', geometry: {location:{lat: 40.826258, lng: -73.919298}}, typeEnabled: ko.observable(true), types:["courthouse"]},
+    {name:'Bronx Supreme Court', geometry: {location:{lat: 40.826173, lng: -73.923834}}, typeEnabled: ko.observable(true), types:["courthouse"]},
+    {name:'Heritage Field', geometry: {location:{lat: 40.827023, lng: -73.927761}}, typeEnabled: ko.observable(true), types:["park"]},
+    {name:'Joseph Yancey Track and Field', geometry: {location:{lat: 40.828006, lng: -73.929043}}, typeEnabled: ko.observable(true), types:["park"]},
+    {name:'Joyce Kilmer Park', geometry: {location:{lat: 40.828522, lng: -73.922673}}, typeEnabled: ko.observable(true), types:["park"]}
 ];
 
 var initApp = function() {
@@ -33,8 +33,10 @@ var ViewModel = function() {
                 item.typeEnabled(true);
                 item.marker.setVisible(true);
             } else {
-                item.typeEnabled(false);
-                item.marker.setVisible(false);
+                if(newValue !== "Choose a type") {
+                    item.typeEnabled(false);
+                    item.marker.setVisible(false);
+                };
             };
         });
     });
