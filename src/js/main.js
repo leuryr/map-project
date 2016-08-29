@@ -31,8 +31,10 @@ var ViewModel = function() {
         self.locations().forEach(function(item) {
             if(item.types.includes(newValue)) {
                 item.typeEnabled(true);
+                item.marker.setVisible(true);
             } else {
                 item.typeEnabled(false);
+                item.marker.setVisible(false);
             };
         });
     });
@@ -56,6 +58,9 @@ var ViewModel = function() {
             }
         });
     };
+    // Calling createMarkers function for the data that is already inside
+    // self.locations.
+    self.createMarkers(self.locations);
     // This function sets the initial value of the typeEnabled property
     // for a location to true.
     self.initType = function(item) {
@@ -84,7 +89,6 @@ var ViewModel = function() {
         } else {
             console.log('Could not complete search!');
             // Creates markers for hardcoded locations if Places service doesn't work.
-            self.createMarkers(self.locations);
             };
     };
     // Call to nearbySearch method for Places.
