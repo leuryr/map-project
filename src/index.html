@@ -24,7 +24,7 @@
             <option value="stadium">Stadium</option>
         </select>
         <ul class="list" data-bind="foreach: locations">
-            <li class="list-item" data-bind="text: name, click: $parent.getMarker, enable: typeEnabled"></li>
+            <li class="list-item" data-bind="text: name, click: $parent.getMarker, visible: typeEnabled"></li>
         </ul>
     </aside>
     <a class="menu-icon" data-bind="click: toggleMenu">
