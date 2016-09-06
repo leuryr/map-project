@@ -13,7 +13,7 @@ var Model = [
 
 var initApp = function() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: Model[7].geometry.location,
+        center: Model[8].geometry.location,
         zoom: 16,
         mapTypeControl: false
     });
@@ -87,7 +87,7 @@ var ViewModel = function() {
     var places = new google.maps.places.PlacesService(map);
     // Creating an object with fields required for our future nearbySearch method.
     var searchRequest = {
-        location: Model[7].geometry.location,
+        location: Model[8].geometry.location,
         radius: 500,
         types: ['bank','bar', 'gym','movie_theater','restaurant',]
     };
