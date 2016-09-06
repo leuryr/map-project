@@ -35,6 +35,7 @@ var ViewModel = function() {
             } else {
                     item.typeEnabled(false);
                     item.marker.setVisible(false);
+                    infoWindowService.close();
                 };
         });
     });
