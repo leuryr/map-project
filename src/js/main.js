@@ -38,6 +38,9 @@ var ViewModel = function() {
                 };
         });
     });
+    self.resetFilter = function() {
+        self.selectedValue("Choose a type");
+    };
     var infoWindowService = new google.maps.InfoWindow();
     self.fillInfoWindow = function(location, infoWindow) {
         if(infoWindow.marker != location.marker) {

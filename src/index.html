@@ -22,6 +22,7 @@
             <option value="shopping_mall">Shopping Mall</option>
             <option value="stadium">Stadium</option>
         </select>
+        <button data-bind="click: resetFilter">Reset Filter</button>
         <ul class="list" data-bind="foreach: locations">
             <li class="list-item" data-bind="text: name, click: function(data) {$parent.getMarker(data); $parent.getInfoWindow(data)}, visible: typeEnabled"></li>
         </ul>
