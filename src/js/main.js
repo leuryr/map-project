@@ -2,11 +2,13 @@ var Model = [
     {name:"Yankee Stadium", geometry: {location:{lat: 40.829622, lng: -73.926173}}, typeEnabled: ko.observable(true), types:["stadium"], vicinity: "1 E 161st St, Bronx"},
     {name:"The Bronx Museum of the Arts", geometry: {location:{lat: 40.831011, lng: -73.919719}}, typeEnabled: ko.observable(true), types:["museum"], vicinity: "1040 Grand Concourse, Bronx"},
     {name:"Concourse Plaza", geometry: {location:{lat: 40.825227, lng: -73.920491}}, typeEnabled: ko.observable(true), types:["shopping_mall"], vicinity: "220 E 161st St, Bronx"},
-    {name:"Bronx County Hall of Justice", geometry: {location:{lat: 40.826258, lng: -73.919298}}, typeEnabled: ko.observable(true), types:["courthouse"], vicinity: "265 E 161st St, Bronx"},
+    {name:"Bronx County Family Court", geometry: {location:{lat: 40.826746, lng: -73.920696}}, typeEnabled: ko.observable(true), types:["courthouse"], vicinity: "900 Sheridan Ave, Bronx"},
+    {name:"Bronx County Hall of Justice", geometry: {location:{lat: 40.826102, lng: -73.919612}}, typeEnabled: ko.observable(true), types:["courthouse"], vicinity: "265 E 161st St, Bronx"},
     {name:"Bronx Supreme Court", geometry: {location:{lat: 40.826173, lng: -73.923834}}, typeEnabled: ko.observable(true), types:["courthouse"], vicinity: "851 Grand Concourse #111, Bronx"},
     {name:"Heritage Field", geometry: {location:{lat: 40.827023, lng: -73.927761}}, typeEnabled: ko.observable(true), types:["park"], vicinity: ", Bronx"},
-    {name:"Joseph Yancey Track and Field", geometry: {location:{lat: 40.828006, lng: -73.929043}}, typeEnabled: ko.observable(true), types:["park"], vicinity: ", Bronx"},
-    {name:"Joyce Kilmer Park", geometry: {location:{lat: 40.828522, lng: -73.922673}}, typeEnabled: ko.observable(true), types:["park"], vicinity: "Walton Ave, Bronx"}
+    {name:"Joseph Yancey Track and Field", geometry: {location:{lat: 40.828025, lng: -73.929016}}, typeEnabled: ko.observable(true), types:["park"], vicinity: ", Bronx"},
+    {name:"Joyce Kilmer Park", geometry: {location:{lat: 40.828522, lng: -73.922673}}, typeEnabled: ko.observable(true), types:["park"], vicinity: "Walton Ave, Bronx"},
+    {name:"Mullaly Park", geometry: {location:{lat: 40.833092, lng: -73.924046}}, typeEnabled: ko.observable(true), types:["park"], vicinity: "Jerome Ave, Bronx"}
 ];
 
 var initApp = function() {
@@ -103,7 +105,6 @@ var ViewModel = function() {
             self.createMarkers(self.locations);
         } else {
             console.log('Could not complete search!');
-            // Creates markers for hardcoded locations if Places service doesn't work.
             };
     };
     // Call to nearbySearch method for Places.
