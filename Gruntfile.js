@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 			},
     		js: {
       			files: {
-					'dest/js/main.js': 'src/js/main.js'
+					'dist/js/main.js': 'src/js/main.js'
 				}
         	}
         },
