@@ -1,64 +1,123 @@
 var Model = [
-    {name:"Yankee Stadium", geometry: {location:{lat: 40.829622, lng: -73.926173}}, typeEnabled: ko.observable(true), types:["stadium"], vicinity: "1 E 161st St, Bronx"},
-    {name:"The Bronx Museum of the Arts", geometry: {location:{lat: 40.831011, lng: -73.919719}}, typeEnabled: ko.observable(true), types:["museum"], vicinity: "1040 Grand Concourse, Bronx"},
-    {name:"Concourse Plaza", geometry: {location:{lat: 40.825227, lng: -73.920491}}, typeEnabled: ko.observable(true), types:["shopping_mall"], vicinity: "220 E 161st St, Bronx"},
-    {name:"Bronx County Family Court", geometry: {location:{lat: 40.826746, lng: -73.920696}}, typeEnabled: ko.observable(true), types:["courthouse"], vicinity: "900 Sheridan Ave, Bronx"},
-    {name:"Bronx County Hall of Justice", geometry: {location:{lat: 40.826102, lng: -73.919612}}, typeEnabled: ko.observable(true), types:["courthouse"], vicinity: "265 E 161st St, Bronx"},
-    {name:"Bronx Supreme Court", geometry: {location:{lat: 40.826173, lng: -73.923834}}, typeEnabled: ko.observable(true), types:["courthouse"], vicinity: "851 Grand Concourse #111, Bronx"},
-    {name:"Heritage Field", geometry: {location:{lat: 40.827023, lng: -73.927761}}, typeEnabled: ko.observable(true), types:["park"], vicinity: ", Bronx"},
-    {name:"Joseph Yancey Track and Field", geometry: {location:{lat: 40.828025, lng: -73.929016}}, typeEnabled: ko.observable(true), types:["park"], vicinity: ", Bronx"},
-    {name:"Joyce Kilmer Park", geometry: {location:{lat: 40.828522, lng: -73.922673}}, typeEnabled: ko.observable(true), types:["park"], vicinity: "Walton Ave, Bronx"},
-    {name:"Mullaly Park", geometry: {location:{lat: 40.833092, lng: -73.924046}}, typeEnabled: ko.observable(true), types:["park"], vicinity: "Jerome Ave, Bronx"}
+    {
+        name:"Yankee Stadium",
+        location:{lat: 40.829622, lng: -73.926173},
+        typeEnabled: ko.observable(true),
+        address: "1 E 161st St, Bronx"
+    },
+    {
+        name:"The Bronx Museum of the Arts",
+        location:{lat: 40.831011, lng: -73.919719},
+        typeEnabled: ko.observable(true),
+        address: "1040 Grand Concourse, Bronx"
+    },
+    {
+        name:"Concourse Plaza",
+        location:{lat: 40.825227, lng: -73.920491},
+        typeEnabled: ko.observable(true),
+        address: "220 E 161st St, Bronx"
+    },
+    {
+        name:"Bronx County Family Court",
+        location:{lat: 40.826746, lng: -73.920696},
+        typeEnabled: ko.observable(true),
+        address: "900 Sheridan Ave, Bronx"
+    },
+    {
+        name:"Bronx County Hall of Justice",
+        location:{lat: 40.826102, lng: -73.919612},
+        typeEnabled: ko.observable(true),
+        address: "265 E 161st St, Bronx"},
+    {
+        name:"Bronx Supreme Court",
+        location:{lat: 40.826173, lng: -73.923834},
+        typeEnabled: ko.observable(true),
+        address: "851 Grand Concourse #111, Bronx"
+    },
+    {
+        name:"Heritage Field",
+        location:{lat: 40.827023, lng: -73.927761},
+        typeEnabled: ko.observable(true),
+        address: ", Bronx"
+    },
+    {
+        name:"Joseph Yancey Track and Field",
+        location:{lat: 40.828025, lng: -73.929016},
+        typeEnabled: ko.observable(true),
+        address: ", Bronx"
+    },
+    {
+        name:"Joyce Kilmer Park",
+        location:{lat: 40.828522, lng: -73.922673},
+        typeEnabled: ko.observable(true),
+        address: "Walton Ave, Bronx"
+    },
+    {
+        name:"Mullaly Park",
+        location:{lat: 40.833092, lng: -73.924046},
+        typeEnabled: ko.observable(true),
+        address: "Jerome Ave, Bronx"
+    }
 ];
 
 var initApp = function() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: Model[8].geometry.location,
+        center: {lat: 40.828522, lng: -73.922673},
         zoom: 16,
         mapTypeControl: false
     });
     ko.applyBindings(new ViewModel());
 };
 var mapFail = function() {
-    console.log('Maps did not load!');
+    alert('Google Maps could not load at this time. Please try again later.');
 };
 var ViewModel = function() {
     var self = this;
     // Create an observable array, and store hardcoded Model locations.
     self.locations = ko.observableArray(Model);
-    // Create an onservable for the selected filter value.
-    self.selectedValue = ko.observable();
-    self.selectedValue.subscribe(function(newValue) {
-        console.log(newValue);
+    // Create an onservable for the selected filter text value.
+    self.listFilter = ko.observable();
+    self.listFilter.subscribe(function(newValue) {
+        var simpleValue = newValue.toLowerCase();
         self.locations().forEach(function(item) {
-            if(item.types.includes(newValue) || (newValue == "Choose a type")) {
+            if(item.name.toLowerCase().indexOf(simpleValue) >= 0) {
                 item.typeEnabled(true);
                 item.marker.setVisible(true);
             } else {
-                    item.typeEnabled(false);
-                    item.marker.setVisible(false);
+                item.typeEnabled(false);
+                item.marker.setVisible(false);
+                if((item.marker == infoWindowService.marker) && (item.marker.visible == false)){
                     infoWindowService.close();
+                    infoWindowService.marker = null;
                 };
+            };
         });
     });
-    self.resetFilter = function() {
-        self.selectedValue("Choose a type");
-    };
     var infoWindowService = new google.maps.InfoWindow();
-    self.fillInfoWindow = function(location, infoWindow) {
-        if(infoWindow.marker != location.marker) {
-            infoWindow.marker = location.marker;
-            var address = location.vicinity;
-            var firstLine = address.substring(0,address.indexOf(","));
-            infoWindow.setContent('<div>' + location.name + '<hr>' + '<br>' + firstLine + '<br>Bronx, NY</div>');
-            infoWindow.open(map, location.marker);
+    self.fillInfoWindow = function(item, infoWindow) {
+        if(infoWindow.marker != item.marker) {
+            infoWindow.marker = item.marker;
+            if(item.hasOwnProperty('address')) {
+                var address = item.address;
+                var firstLine = address.substring(0,address.indexOf(","));
+                var secondLine = "Bronx, NY";
+            } else {
+                var firstLine = item.location.formattedAddress[0];
+                var secondLine = item.location.formattedAddress[1];
+            };
+            infoWindow.setContent('<div>' + item.name + '<hr>' + '<br>' + firstLine + '<br>' + secondLine + '</div>');
+            infoWindow.open(map, item.marker);
+
+            infoWindow.addListener('closeclick', function() {
+              infoWindow.marker = null;
+            });
         };
     };
     // This function creates map markers from an observable array of locations.
     self.createMarkers = function(array) {
         array().forEach(function(item) {
             if (!(item.hasOwnProperty('marker'))) {
-                var position = item.geometry.location;
+                var position = item.location;
                 var title = item.name;
 
                 var marker = new google.maps.Marker({
@@ -83,32 +142,38 @@ var ViewModel = function() {
     self.initType = function(item) {
         item.typeEnabled = ko.observable(true);
     };
-    // This calls the Maps API Places service.
-    var places = new google.maps.places.PlacesService(map);
-    // Creating an object with fields required for our future nearbySearch method.
-    var searchRequest = {
-        location: Model[8].geometry.location,
-        radius: 500,
-        types: ['bank','bar', 'gym','movie_theater','restaurant',]
-    };
-    // This callback function will be used to handle the results of the
-    // Places nearbySearch method.
-    var requestCallback = function(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-            console.log(results);
-            results.forEach(function(result) {
-                self.initType(result);
-                // Pushing results to our observable array.
-                self.locations.push(result);
+    var fsClientID = "HKK50PCWV51XRJQUJAF4UEQGULLAFOWIOVWOBYLJZFTP4FTF";
+    var fsClientSecret = "LUCLK3BPYXTO3Q25GBSH0FSH3RSIKL0HS1O2BMALNYII2VMD";
+    var fsVersion = 20160909;
+    var fsSearchCenter = 40.828522 + "," + -73.922673;
+    var fsRadius = 500;
+    var fsSection = "food";
+    var fsURL = "https://api.foursquare.com/v2/venues/explore?client_id="+fsClientID+"&client_secret="+fsClientSecret+"&v="+fsVersion+"&ll="+fsSearchCenter+"&radius="+fsRadius+"&section="+fsSection+"&limit=50";
+    $.ajax({
+        url: fsURL,
+        dataType: "json",
+        success: function(results) {
+            results.response.groups[0].items.forEach(function(item) {
+                self.initType(item.venue);
+                self.locations.push(item.venue);
             });
-            // Iterating through array after push to create markers for all locations.
             self.createMarkers(self.locations);
-        } else {
-            console.log('Could not complete search!');
+        },
+        error: function(result) {
+            var errorType = result.responseJSON.meta.errorType;
+            var description;
+            if(errorType == 'invalid_auth' || 'param_error' || 'endpoint_error') {
+                description = 'Something wrong with request. Please contact site administrator.'
+            } else if(errorType == 'rate_limit_exceeded') {
+                description = 'Number of requests has exceeded limit. Please try again later.'
+            } else if(errorType == 'server_error') {
+                description = 'Foursquare server is experiencing issues. Please try again later.'
+            } else {
+                description = 'Some error has occurred. Please contact site administrator.'
             };
-    };
-    // Call to nearbySearch method for Places.
-    places.nearbySearch(searchRequest, requestCallback);
+            alert('Could not retrieve Foursquare data.\n' + description);
+        }
+    });
     // This function gets the marker from the location object
     // and passes it into the animateMarker function.
     self.getMarker = function(object) {
