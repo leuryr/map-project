@@ -3,60 +3,60 @@ var Model = [
         name:"Yankee Stadium",
         location:{lat: 40.829622, lng: -73.926173},
         typeEnabled: ko.observable(true),
-        address: "1 E 161st St, Bronx"
+        address: "1 E 161st St, Bronx NY"
     },
     {
         name:"The Bronx Museum of the Arts",
         location:{lat: 40.831011, lng: -73.919719},
         typeEnabled: ko.observable(true),
-        address: "1040 Grand Concourse, Bronx"
+        address: "1040 Grand Concourse, Bronx NY"
     },
     {
         name:"Concourse Plaza",
         location:{lat: 40.825227, lng: -73.920491},
         typeEnabled: ko.observable(true),
-        address: "220 E 161st St, Bronx"
+        address: "220 E 161st St, Bronx NY"
     },
     {
         name:"Bronx County Family Court",
         location:{lat: 40.826746, lng: -73.920696},
         typeEnabled: ko.observable(true),
-        address: "900 Sheridan Ave, Bronx"
+        address: "900 Sheridan Ave, Bronx NY"
     },
     {
         name:"Bronx County Hall of Justice",
         location:{lat: 40.826102, lng: -73.919612},
         typeEnabled: ko.observable(true),
-        address: "265 E 161st St, Bronx"},
+        address: "265 E 161st St, Bronx NY"},
     {
         name:"Bronx Supreme Court",
         location:{lat: 40.826173, lng: -73.923834},
         typeEnabled: ko.observable(true),
-        address: "851 Grand Concourse #111, Bronx"
+        address: "851 Grand Concourse #111, Bronx NY"
     },
     {
         name:"Heritage Field",
         location:{lat: 40.827023, lng: -73.927761},
         typeEnabled: ko.observable(true),
-        address: ", Bronx"
+        address: ", Bronx NY"
     },
     {
         name:"Joseph Yancey Track and Field",
         location:{lat: 40.828025, lng: -73.929016},
         typeEnabled: ko.observable(true),
-        address: ", Bronx"
+        address: ", Bronx NY"
     },
     {
         name:"Joyce Kilmer Park",
         location:{lat: 40.828522, lng: -73.922673},
         typeEnabled: ko.observable(true),
-        address: "Walton Ave, Bronx"
+        address: "Walton Ave, Bronx NY"
     },
     {
         name:"Mullaly Park",
         location:{lat: 40.833092, lng: -73.924046},
         typeEnabled: ko.observable(true),
-        address: "Jerome Ave, Bronx"
+        address: "Jerome Ave, Bronx NY"
     }
 ];
 
@@ -97,15 +97,20 @@ var ViewModel = function() {
     self.fillInfoWindow = function(item, infoWindow) {
         if(infoWindow.marker != item.marker) {
             infoWindow.marker = item.marker;
-            if(item.hasOwnProperty('address')) {
+            if(item.hasOwnProperty('id')) {
+                var firstLine = item.location.formattedAddress[0];
+                var secondLine = item.location.formattedAddress[1];
+                infoWindow.setContent('<div>' + '<h3>' + item.name + '</h3>' + '<hr>' + '<br>' + firstLine + '<br>' + secondLine);
+                if (item.contact.hasOwnProperty('formattedPhone')){
+                    var phone = item.contact.formattedPhone;
+                    infoWindow.setContent(infoWindow.content + '<br>' + '<br>' + phone + '</div>');
+                }
+            } else {
                 var address = item.address;
                 var firstLine = address.substring(0,address.indexOf(","));
                 var secondLine = "Bronx, NY";
-            } else {
-                var firstLine = item.location.formattedAddress[0];
-                var secondLine = item.location.formattedAddress[1];
+                infoWindow.setContent('<div>' + item.name + '<hr>' + '<br>' + firstLine + '<br>' + secondLine + '</div>');
             };
-            infoWindow.setContent('<div>' + item.name + '<hr>' + '<br>' + firstLine + '<br>' + secondLine + '</div>');
             infoWindow.open(map, item.marker);
 
             infoWindow.addListener('closeclick', function() {
@@ -134,9 +139,9 @@ var ViewModel = function() {
             }
         });
     };
-    // Calling createMarkers function for the data that is already inside
-    // self.locations.
-    self.createMarkers(self.locations);
+    // // Calling createMarkers function for the data that is already inside
+    // // self.locations.
+    // self.createMarkers(self.locations);
     // This function sets the initial value of the typeEnabled property
     // for a location to true.
     self.initType = function(item) {
@@ -147,6 +152,21 @@ var ViewModel = function() {
     var fsVersion = 20160909;
     var fsSearchCenter = 40.828522 + "," + -73.922673;
     var fsRadius = 500;
+    self.findInfoLocation = function() {
+        self.locations().forEach(function(item) {
+            var fsSearchCenter = item.location.lat + "," + item.location.lng;
+            var fsURL = "https://api.foursquare.com/v2/venues/search?client_id="+fsClientID+"&client_secret="+fsClientSecret+"&v="+fsVersion+"&ll="+fsSearchCenter+"&query="+item.name+"&address="+item.address+"&limit=1";
+            $.getJSON(fsURL,function(results){
+                for (var property in results.response.venues[0]) {
+                    item[property] = results.response.venues[0][property];
+                };
+            })
+            .always(function() {
+                self.createMarkers(self.locations);
+            });
+        });
+    };
+    self.findInfoLocation();
     var fsSection = "food";
     var fsURL = "https://api.foursquare.com/v2/venues/explore?client_id="+fsClientID+"&client_secret="+fsClientSecret+"&v="+fsVersion+"&ll="+fsSearchCenter+"&radius="+fsRadius+"&section="+fsSection+"&limit=50";
     $.ajax({
