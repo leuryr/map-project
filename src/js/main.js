@@ -100,7 +100,7 @@ var ViewModel = function() {
             if(item.hasOwnProperty('id')) {
                 var firstLine = item.location.formattedAddress[0];
                 var secondLine = item.location.formattedAddress[1];
-                infoWindow.setContent('<div>' + '<h3>' + item.name + '</h3>' + '<hr>' + '<br>' + firstLine + '<br>' + secondLine);
+                infoWindow.setContent('<div>' + '<h3 class="infoWindow-title">' + item.name + '</h3>' + '<hr>' + '<br>' + firstLine + '<br>' + secondLine);
                 if (item.contact.hasOwnProperty('formattedPhone')){
                     var phone = item.contact.formattedPhone;
                     infoWindow.setContent(infoWindow.content + '<br>' + '<br>' + phone + '</div>');

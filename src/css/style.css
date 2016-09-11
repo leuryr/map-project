@@ -18,6 +18,9 @@ li:hover {
 .title {
     padding-left: 1em;
 }
+.infoWindow-title {
+    margin: 0;
+}
 .list {
     list-style: none;
     padding: 0;
