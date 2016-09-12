@@ -137,7 +137,7 @@ var ViewModel = function() {
                 infoWindow.setContent('<div>' + '<h3 class="infoWindow-title">' + item.name + '</h3>' + '<hr>' + '<br>' + firstLine + '<br>' + secondLine);
                 // Some locations do not have phone data, so we check to see if
                 // that data is available inside the item object before adding it to
-                //the infoWindow.
+                // the infoWindow.
                 if (item.contact.hasOwnProperty('formattedPhone')){
                     var phone = item.contact.formattedPhone;
                     infoWindow.setContent(infoWindow.content + '<br>' + '<br>' + phone);
@@ -207,7 +207,7 @@ var ViewModel = function() {
     var fsVersion = 20160909;
     var fsSearchCenter = 40.828522 + "," + -73.922673;
     var fsRadius = 500;
-    //This function iterates through the harcoded locations, and uses the Foursquare search feature
+    // This function iterates through the harcoded locations, and uses the Foursquare search feature
     // to find additional data.
     self.findInfoLocation = function() {
         self.locations().forEach(function(item) {
