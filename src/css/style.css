@@ -59,7 +59,7 @@ li:hover {
     transition: transform 0.5s ease;
 }
 .menu-icon {
-    left:.4em;;
+    left:.4em;
     position: absolute;
     z-index: 2;
     transition: transform 0.5s ease;
