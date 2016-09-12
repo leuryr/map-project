@@ -114,8 +114,9 @@ var ViewModel = function() {
                 infoWindow.setContent('<div>' + '<h3 class="infoWindow-title">' + item.name + '</h3>' + '<hr>' + '<br>' + firstLine + '<br>' + secondLine);
                 if (item.contact.hasOwnProperty('formattedPhone')){
                     var phone = item.contact.formattedPhone;
-                    infoWindow.setContent(infoWindow.content + '<br>' + '<br>' + phone + '</div>');
+                    infoWindow.setContent(infoWindow.content + '<br>' + '<br>' + phone);
                 }
+                infoWindow.setContent(infoWindow.content + '<img class="foursquare-attrib" src="img/powered-by-foursquare.svg" alt="Powered by Foursquare"/>' + '</div>');
             } else {
                 var address = item.address;
                 var firstLine = address.substring(0,address.indexOf(","));
