@@ -109,12 +109,12 @@ var ViewModel = function() {
                 // Additionally if the infoWindow is currently open for a location item
                 // that disappears, we also close its infoWindow, and remove its list item's
                 // "active" class.
-                if((item.marker == infoWindowService.marker) && (item.marker.visible == false)){
+                if((item.marker == infoWindowService.marker) && (item.marker.visible === false)){
                     infoWindowService.close();
                     infoWindowService.marker = null;
                     self.removeActiveStatus(item);
-                };
-            };
+                }
+            }
         });
     });
     // Set up variable for call to Google's infoWindow service.
@@ -126,13 +126,14 @@ var ViewModel = function() {
         // Check to see if there is an infoWindow currently open on
         // this item's marker.
         if(infoWindow.marker != item.marker) {
+            var firstLine, secondLine;
             infoWindow.marker = item.marker;
             // If the item has an id property, it means that it has been
             // filled with Foursquare data, and we can proceed to use that data
             // to set the infoWindow content.
             if(item.hasOwnProperty('id')) {
-                var firstLine = item.location.formattedAddress[0];
-                var secondLine = item.location.formattedAddress[1];
+                firstLine = item.location.formattedAddress[0];
+                secondLine = item.location.formattedAddress[1];
                 infoWindow.setContent('<div>' + '<h3 class="infoWindow-title">' + item.name + '</h3>' + '<hr>' + '<br>' + firstLine + '<br>' + secondLine);
                 // Some locations do not have phone data, so we check to see if
                 // that data is available inside the item object before adding it to
@@ -148,10 +149,10 @@ var ViewModel = function() {
                 // If the id property is not present, Foursquare data could not be
                 // fetched, and we instead fill the infoWindow with the harcoded location data.
                 var address = item.address;
-                var firstLine = address.substring(0,address.indexOf(","));
-                var secondLine = "Bronx, NY";
+                firstLine = address.substring(0,address.indexOf(","));
+                secondLine = "Bronx, NY";
                 infoWindow.setContent('<div>' + item.name + '<hr>' + '<br>' + firstLine + '<br>' + secondLine + '</div>');
-            };
+            }
             // After the content has been set, we open the infoWindow to display
             // the information to the user.
             infoWindow.open(map, item.marker);
@@ -162,7 +163,7 @@ var ViewModel = function() {
               infoWindow.marker = null;
               self.removeActiveStatus(item);
             });
-        };
+        }
     };
     // This function creates map markers from an observable array of locations.
     self.createMarkers = function(array) {
@@ -214,11 +215,14 @@ var ViewModel = function() {
             var fsSearchCenter = item.location.lat + "," + item.location.lng;
             var fsURL = "https://api.foursquare.com/v2/venues/search?client_id="+fsClientID+"&client_secret="+fsClientSecret+"&v="+fsVersion+"&ll="+fsSearchCenter+"&query="+item.name+"&address="+item.address+"&limit=1";
             $.getJSON(fsURL,function(results){
+                var venues = results.response.venues[0];
                 // After getting the results of the request, we take each property in the venues
                 // object, and add it to it's corresponding harcoded location object.
-                for (var property in results.response.venues[0]) {
-                    item[property] = results.response.venues[0][property];
-                };
+                for (var property in venues) {
+                    if(venues.hasOwnProperty(property)) {
+                        item[property] = results.response.venues[0][property];
+                    }
+                }
             })
             // Whether we're able to retreive the Foursquare data or not, we want to be sure that
             // the markers for our hardcoded locations get created.
@@ -254,14 +258,14 @@ var ViewModel = function() {
             var errorType = result.responseJSON.meta.errorType;
             var description;
             if(errorType == 'invalid_auth' || 'param_error' || 'endpoint_error') {
-                description = 'Something wrong with request. Please contact site administrator.'
+                description = 'Something wrong with request. Please contact site administrator.';
             } else if(errorType == 'rate_limit_exceeded') {
-                description = 'Number of requests has exceeded limit. Please try again later.'
+                description = 'Number of requests has exceeded limit. Please try again later.';
             } else if(errorType == 'server_error') {
-                description = 'Foursquare server is experiencing issues. Please try again later.'
+                description = 'Foursquare server is experiencing issues. Please try again later.';
             } else {
-                description = 'Some error has occurred. Please contact site administrator.'
-            };
+                description = 'Some error has occurred. Please contact site administrator.';
+            }
             alert('Could not retrieve Foursquare data.\n' + description);
         }
     });
@@ -283,9 +287,9 @@ var ViewModel = function() {
         self.locations().forEach(function(item) {
             if(item != object) {
                 self.removeActiveStatus(item);
-            };
+            }
         });
-    }
+    };
     // This function sets the location object's active property
     // to false, triggering Knockout to remove its list item's
     // "active" CSS class.
@@ -304,10 +308,10 @@ var ViewModel = function() {
     };
     // Create variables to facilitate toggling classes.
     var listContainer = $('.list-container');
-    var menuIcon = $('.menu-icon')
+    var menuIcon = $('.menu-icon');
     // This shows and hides the list menu.
     self.toggleMenu = function() {
         listContainer.toggleClass("open-menu");
         menuIcon.toggleClass("slide-icon");
     };
-}
+};
