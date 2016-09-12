@@ -30,11 +30,7 @@ Some useful tips to help you get started:
   $> ngrok http 8080
   ```
 
-5. Copy the public URL ngrok gives you and try running it through PageSpeed Insights!
-
-Alternatively, you could visit and test a live version of the distribution site at http://leuryr.github.io/optimization-project/
-
-The PageSpeed Insights scores should be up to standards!
+Alternatively, you could visit and test a **live version** of the distribution site at http://leuryr.github.io/map-project/
 
 #### Running the build tools
 
