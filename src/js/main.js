@@ -183,7 +183,7 @@ var ViewModel = function() {
     };
     self.findInfoLocation();
     var fsSection = "food";
-    var fsURL = "https://api.foursquare.com/v2/venues/explore?client_id="+fsClientID+"&client_secret="+fsClientSecret+"&v="+fsVersion+"&ll="+fsSearchCenter+"&radius="+fsRadius+"&section="+fsSection+"&limit=50";
+    var fsURL = "https://api.foursquare.com/v2/venues/explore?client_id="+fsClientID+"&client_secret="+fsClientSecret+"&v="+fsVersion+"&ll="+fsSearchCenter+"&radius="+fsRadius+"&section="+fsSection+"&limit=20";
     $.ajax({
         url: fsURL,
         dataType: "json",
