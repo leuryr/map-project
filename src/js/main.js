@@ -99,6 +99,7 @@ var ViewModel = function() {
                 if((item.marker == infoWindowService.marker) && (item.marker.visible == false)){
                     infoWindowService.close();
                     infoWindowService.marker = null;
+                    self.removeActiveStatus(item);
                 };
             };
         });
@@ -125,6 +126,7 @@ var ViewModel = function() {
 
             infoWindow.addListener('closeclick', function() {
               infoWindow.marker = null;
+              self.removeActiveStatus(item);
             });
         };
     };
@@ -218,13 +220,16 @@ var ViewModel = function() {
         self.fillInfoWindow(object, infoWindowService);
     };
     self.activate = function(object) {
-        object.active = ko.observable(true);
+        object.active(true);
         self.locations().forEach(function(item) {
             if(item != object) {
-                item.active = ko.observable(false);
+                self.removeActiveStatus(item);
             };
         });
     }
+    self.removeActiveStatus = function(object) {
+        object.active(false);
+    };
     // This function passes in a marker
     // and gives it a boucing animantion.
     self.animateMarker = function(marker) {
