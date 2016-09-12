@@ -185,6 +185,7 @@ var ViewModel = function() {
                 marker.addListener('click', function() {
                     self.animateMarker(this);
                     self.fillInfoWindow(item, infoWindowService);
+                    self.activate(item);
                 });
                 // Sets this item's marker equal to marker we just created.
                 item.marker = marker;
