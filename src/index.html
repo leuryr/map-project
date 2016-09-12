@@ -11,7 +11,7 @@
         <h1 class="title">Neighborhood Map</h1>
         <input type="text" placeholder="Start typing to filter results." data-bind="textInput: listFilter">
         <ul class="list" data-bind="foreach: locations">
-            <li class="list-item" data-bind="text: name, click: function(data) {$parent.getMarker(data); $parent.getInfoWindow(data)}, visible: typeEnabled"></li>
+            <li class="list-item" data-bind="text: name, click: function(data) {$parent.getMarker(data); $parent.getInfoWindow(data); $parent.activate(data)}, visible: visible, css: {active: active() == true}"></li>
         </ul>
     </aside>
     <a class="menu-icon" data-bind="click: toggleMenu">

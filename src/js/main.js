@@ -2,60 +2,70 @@ var Model = [
     {
         name:"Yankee Stadium",
         location:{lat: 40.829622, lng: -73.926173},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: "1 E 161st St, Bronx NY"
     },
     {
         name:"The Bronx Museum of the Arts",
         location:{lat: 40.831011, lng: -73.919719},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: "1040 Grand Concourse, Bronx NY"
     },
     {
         name:"Concourse Plaza",
         location:{lat: 40.825227, lng: -73.920491},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: "220 E 161st St, Bronx NY"
     },
     {
         name:"Bronx County Family Court",
         location:{lat: 40.826746, lng: -73.920696},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: "900 Sheridan Ave, Bronx NY"
     },
     {
         name:"Bronx County Hall of Justice",
         location:{lat: 40.826102, lng: -73.919612},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: "265 E 161st St, Bronx NY"},
     {
         name:"Bronx Supreme Court",
         location:{lat: 40.826173, lng: -73.923834},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: "851 Grand Concourse #111, Bronx NY"
     },
     {
         name:"Heritage Field",
         location:{lat: 40.827023, lng: -73.927761},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: ", Bronx NY"
     },
     {
         name:"Joseph Yancey Track and Field",
         location:{lat: 40.828025, lng: -73.929016},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: ", Bronx NY"
     },
     {
         name:"Joyce Kilmer Park",
         location:{lat: 40.828522, lng: -73.922673},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: "Walton Ave, Bronx NY"
     },
     {
         name:"Mullaly Park",
         location:{lat: 40.833092, lng: -73.924046},
-        typeEnabled: ko.observable(true),
+        visible: ko.observable(true),
+        active: ko.observable(false),
         address: "Jerome Ave, Bronx NY"
     }
 ];
@@ -81,10 +91,10 @@ var ViewModel = function() {
         var simpleValue = newValue.toLowerCase();
         self.locations().forEach(function(item) {
             if(item.name.toLowerCase().indexOf(simpleValue) >= 0) {
-                item.typeEnabled(true);
+                item.visible(true);
                 item.marker.setVisible(true);
             } else {
-                item.typeEnabled(false);
+                item.visible(false);
                 item.marker.setVisible(false);
                 if((item.marker == infoWindowService.marker) && (item.marker.visible == false)){
                     infoWindowService.close();
@@ -142,11 +152,14 @@ var ViewModel = function() {
     // // Calling createMarkers function for the data that is already inside
     // // self.locations.
     // self.createMarkers(self.locations);
-    // This function sets the initial value of the typeEnabled property
+    // This function sets the initial value of the visible property
     // for a location to true.
-    self.initType = function(item) {
-        item.typeEnabled = ko.observable(true);
+    self.initVisibility = function(item) {
+        item.visible = ko.observable(true);
     };
+    self.initStatus = function(item) {
+        item.active = ko.observable(false);
+    }
     var fsClientID = "HKK50PCWV51XRJQUJAF4UEQGULLAFOWIOVWOBYLJZFTP4FTF";
     var fsClientSecret = "LUCLK3BPYXTO3Q25GBSH0FSH3RSIKL0HS1O2BMALNYII2VMD";
     var fsVersion = 20160909;
@@ -174,7 +187,8 @@ var ViewModel = function() {
         dataType: "json",
         success: function(results) {
             results.response.groups[0].items.forEach(function(item) {
-                self.initType(item.venue);
+                self.initVisibility(item.venue);
+                self.initStatus(item.venue);
                 self.locations.push(item.venue);
             });
             self.createMarkers(self.locations);
@@ -203,6 +217,14 @@ var ViewModel = function() {
     self.getInfoWindow = function(object) {
         self.fillInfoWindow(object, infoWindowService);
     };
+    self.activate = function(object) {
+        object.active = ko.observable(true);
+        self.locations().forEach(function(item) {
+            if(item != object) {
+                item.active = ko.observable(false);
+            };
+        });
+    }
     // This function passes in a marker
     // and gives it a boucing animantion.
     self.animateMarker = function(marker) {

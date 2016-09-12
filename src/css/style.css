@@ -4,6 +4,12 @@ hr {
 }
 li:hover {
     cursor: pointer;
+    background-color: #1c5b95;
+    color: white;
+}
+.active {
+    background-color: #1c5b95;
+    color: white;
 }
 .list-container {
     width: 300px;
